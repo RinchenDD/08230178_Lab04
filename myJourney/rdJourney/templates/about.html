@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Me</title>
+  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <h2 class="logo">MyJourney</h2>
+      <a href="{% url 'index' %}" class="nav-link">Home</a>
+    </div>
+  </nav>
+
+  <!-- About section -->
+  <section class="about-section container">
+    {% if profile %}
+      <div class="about-content">
+        <div class="profile-pic">
+          {% if profile.photo %}
+            <img src="{{ profile.photo.url }}" alt="{{ profile.full_name }}">
+          {% else %}
+            <img src="{% static 'rdJourney/default_user.png' %}" alt="Default photo">
+          {% endif %}
+        </div>
+        <div class="profile-info">
+          <h1>{{ profile.full_name }}</h1>
+          <p><strong>Student ID:</strong> {{ profile.student_id }}</p>
+          <p><strong>Email:</strong> {{ profile.email }}</p>
+
+          <h3>About Me</h3>
+          <p>{{ profile.bio|linebreaks }}</p>
+
+          {% if profile.skills %}
+            <h3>My Skills</h3>
+            <div class="skills">
+              {% for skill in profile.skills.split(',') %}
+                <span class="skill-tag">{{ skill|trim }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% else %}
+      <p class="no-data">No profile found. Please add one in the admin panel.</p>
+    {% endif %}
+  </section>
+
+  <footer>
+    <p>© {{ profile.full_name|default:"My Journey" }} | Django Lab 04</p>
+  </footer>
+
+</body>
+</html>

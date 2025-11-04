@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Learning Journey</title>
+  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <h2 class="logo">MyJourney</h2>
+      <a href="{% url 'about' %}" class="nav-link">About Me</a>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="hero">
+    <div class="hero-text">
+      <h1>My Learning Journey</h1>
+      <p>Exploring, learning, and growing every step of the way.</p>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="container">
+    {% if milestones %}
+      <div class="journey-grid">
+        {% for m in milestones %}
+          <div class="journey-card">
+            {% if m.image %}
+              <img src="{{ m.image.url }}" alt="{{ m.title }}">
+            {% endif %}
+            <h3>{{ m.title }}</h3>
+            {% if m.date %}<p class="date">{{ m.date }}</p>{% endif %}
+            <p class="desc">{{ m.description|linebreaks }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="no-data">No milestones yet — add them from the admin panel.</p>
+    {% endif %}
+  </main>
+
+  <footer>
+    <p>© {{ profile.full_name|default:"My Journey" }} | Django Lab 04</p>
+  </footer>
+
+</body>
+</html>
